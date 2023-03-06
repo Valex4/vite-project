@@ -3,18 +3,30 @@ import { useGas } from "../contexto/GasContext";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../assets/styles/Table.css";
-export default function TableDataGas() {
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
+export default function TableDataGas() {
+  const MySwal = withReactContent(Swal);
   const {gas,setGas}=useGas();
   const navigate = useNavigate();
   
+  const handleDirection = () => {
+    navigate("/registro")
+  }
 
   const handleDelete = async (id) => {
     try {
       const response = await deleteGas(id);
       navigate("/")
       console.log("Lo esta eliminando")
-      alert("Eliminado, recarga para ver cambios")
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Eliminado correctamente',
+        showConfirmButton: false,
+        timer: 1500
+      })
     } catch (error) {
       console.log(error);
     }
@@ -31,30 +43,13 @@ export default function TableDataGas() {
     }
    
     loadData();
-  }, []);
-
+  }, [gas]);
+  
 
   const renderMain = () => {
-    if (gas.length === 0) {
-      return  <a href="/registro">No gas stations find, Click here to create new</a>
-      
-    }
     return gas.map((g) => (
       <>
-      <div className="table-wrapper">
-      <table className="fl-table">
-        <thead>
-          <tr>
-            <th>Id</th>
-            <th>nombre_gasolinera</th>
-            <th>ubicacion</th>
-            <th>activa</th>
-            <th>total_gasolineras</th>
-            <th>telefono</th>
-            <th>actions</th>
-          </tr>
-        </thead>
-
+     
         <tbody>
           <tr key={g.id}>
             <td>{g.id}</td>
@@ -75,17 +70,43 @@ export default function TableDataGas() {
             </td>
           </tr>
         </tbody>
-      </table>
-      </div>
+     
       </>
     ));
   };
 
-
+if(gas.length === 0){
+  return  (
+<>
+<h1>Gas station: </h1>
+<a href="/registro" className="link">No gas stations find, Click here to create new</a>
+</>  
+  )
+}else{
   return (
+    
     <>
       <h1>Gas stations: </h1>
-      {renderMain()}
+      <button className="registro" onClick={handleDirection}>Register New</button>
+      <div className="table-wrapper">
+      <table className="fl-table">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>nombre_gasolinera</th>
+            <th>ubicacion</th>
+            <th>activa</th>
+            <th>total_gasolineras</th>
+            <th>telefono</th>
+            <th>actions</th>
+          </tr>
+        </thead>
+        {renderMain()}
+       
+      </table>
+      </div>
     </>
   );
+}
+  
 }

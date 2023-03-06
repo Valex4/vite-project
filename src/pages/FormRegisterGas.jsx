@@ -3,7 +3,10 @@ import { useGas } from "../contexto/GasContext";
 import { registerGas } from "../api/gas.api";
 import { useNavigate } from "react-router-dom";
 import "../assets/styles/RegisterCursos.css";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 export default function FormRegisterGas() {
+  const MySwal = withReactContent(Swal);
   const { gas } = useGas();
  const navigate=useNavigate();
 
@@ -22,6 +25,35 @@ export default function FormRegisterGas() {
             const response = await registerGas(values);
             console.log(values);
             actions.resetForm();
+            let timerInterval
+            Swal.fire({
+              title: 'Registrando en la base de datos!',
+              html: 'registrando en <b></b> milliseconds.',
+              timer: 2000,
+              timerProgressBar: true,
+              didOpen: () => {
+                Swal.showLoading()
+                const b = Swal.getHtmlContainer().querySelector('b')
+                timerInterval = setInterval(() => {
+                  b.textContent = Swal.getTimerLeft()
+                }, 100)
+              },
+              willClose: () => {
+                clearInterval(timerInterval)
+              }
+            }).then((result) => {
+              /* Read more about handling dismissals below */
+              if (result.dismiss === Swal.DismissReason.timer) {
+                console.log('I was closed by the timer')
+              }
+            })
+            Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: 'Agregado correctamente',
+              showConfirmButton: false,
+              timer: 1500
+            })
             navigate("/")
 
           } catch (error) {
@@ -31,7 +63,7 @@ export default function FormRegisterGas() {
       >
         {({ handleChange, handleSubmit, isSubmitting }) => (
           <Form onSubmit={handleSubmit}>
-            <div className="containe-login">
+            <div className="container-login">
             <label>Name Gas: </label>
             <input
               type="text"
@@ -50,13 +82,10 @@ export default function FormRegisterGas() {
             />
 
             <label>Active: </label>
-            <input
-              type="text"
-              name="activa"
-              placeholder="Write a active"
-              onChange={handleChange}
-             
-            />
+            <select name="activa" className="select" onChange={handleChange}>
+            <option value="true">TRUE</option>
+            <option value="false">FALSE</option>
+            </select>
 
             <label>Ubication: </label>
             <input

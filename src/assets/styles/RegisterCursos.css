@@ -19,16 +19,17 @@
     background-color: #Fff;
     border: 2px solid #03989E;
     border-radius: 20px;
-    padding: 50px 90px;
+    padding: 40px 90px;
     width: auto;
     height: auto;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    gap: 30px;
+    gap: 20px;
     overflow: hidden;
     flex-direction: column;
+    margin-top: 65px;
 }
 
 .title-login{
@@ -80,8 +81,17 @@
 }
 
 .btn-login button:hover{
-    background-color: #119b9fcd;
-    cursor: pointer;
+    color: #fff;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    padding: 8px 13px;
+    font-size: 18px;
+    width: 385px;
+    height: 66px;
+    background-color:#17c15d;
+    font-weight: 900;
+    font-family: var(--body-font);
 }
 
 .container-login img{
@@ -100,7 +110,7 @@ label{
   top: 20px;
   font-size: 18px;
   font-weight: bold;
-  margin-bottom: 15px;
+ /*  margin-bottom: 15px; */
 /*   border:1px solid red */
 }
 
@@ -116,5 +126,19 @@ input{
     border: 2.5px solid hsl(244deg 4% 36%);
     font-size: 15px;
     font-weight: bold;
-   margin-bottom: 10px; 
+  /*  margin-bottom: 10px; */ 
+}
+
+.select{
+    outline: none;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #fff;
+    padding-left: 20px;
+    width: 385px;
+    height: 66px;
+    margin-top: 5px;
+    border: 2.5px solid hsl(244deg 4% 36%);
+    font-size: 15px;
+    font-weight: bold;
 }
