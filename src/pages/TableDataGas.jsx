@@ -2,6 +2,7 @@ import { getGases,deleteGas } from "../api/gas.api"
 import { useGas } from "../contexto/GasContext";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import "../assets/styles/Table.css";
 export default function TableDataGas() {
 
   const {gas,setGas}=useGas();
@@ -24,6 +25,9 @@ export default function TableDataGas() {
     async function loadData(){
       const response= await getGases()
       setGas(response.data)
+      console.log(response.data);
+      let hola = JSON.stringify(response.data);
+      console.log("data " + hola.split("/activa"))
     }
    
     loadData();
@@ -32,10 +36,13 @@ export default function TableDataGas() {
 
   const renderMain = () => {
     if (gas.length === 0) {
-      return <h1>No gasolinera find</h1>;
+      return  <a href="/registro">No gas stations find, Click here to create new</a>
+      
     }
     return gas.map((g) => (
-      <table className="table">
+      <>
+      <div className="table-wrapper">
+      <table className="fl-table">
         <thead>
           <tr>
             <th>Id</th>
@@ -44,14 +51,16 @@ export default function TableDataGas() {
             <th>activa</th>
             <th>total_gasolineras</th>
             <th>telefono</th>
+            <th>actions</th>
           </tr>
         </thead>
 
         <tbody>
           <tr key={g.id}>
+            <td>{g.id}</td>
             <td>{g.nombre_gasolinera}</td>
             <td>{g.ubicacion}</td>
-            <td>{g.activa}</td>
+            <td>{g.activa.toString()}</td>
             <td>{g.total_gasolineras}</td>
             <td>{g.telefono}</td>
             <td>
@@ -67,13 +76,15 @@ export default function TableDataGas() {
           </tr>
         </tbody>
       </table>
+      </div>
+      </>
     ));
   };
 
 
   return (
     <>
-      <h1>gasolineras: </h1>
+      <h1>Gas stations: </h1>
       {renderMain()}
     </>
   );

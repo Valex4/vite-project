@@ -2,13 +2,13 @@ import { Formik, Form } from "formik";
 import { useGas } from "../contexto/GasContext";
 import { registerGas } from "../api/gas.api";
 import { useNavigate } from "react-router-dom";
-
+import "../assets/styles/RegisterCursos.css";
 export default function FormRegisterGas() {
   const { gas } = useGas();
  const navigate=useNavigate();
 
   return (
-    <div>
+    <div className="container">
       <Formik
         initialValues={{
           nombre_gasolinera: "",
@@ -29,8 +29,9 @@ export default function FormRegisterGas() {
           }
         }}
       >
-        {({ handleChange, handleSubmit, values, isSubmitting }) => (
+        {({ handleChange, handleSubmit, isSubmitting }) => (
           <Form onSubmit={handleSubmit}>
+            <div className="containe-login">
             <label>Name Gas: </label>
             <input
               type="text"
@@ -74,10 +75,12 @@ export default function FormRegisterGas() {
               onChange={handleChange}
             
             />
-
+              <div className="btn-login">
             <button type="submit" disabled={isSubmitting}>
               {isSubmitting ? "Saving.." : "Save"}
             </button>
+            </div>
+            </div>
           </Form>
         )}
       </Formik>
